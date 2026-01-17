@@ -197,14 +197,12 @@ h1 {
     background: white;
     border-radius: 16px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    padding: 2.5rem;
     height: 80%;
     width: 70%;
     position: relative;
     transform: scale(0.7);
     opacity: 0;
-    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-                opacity 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s ease;
 }
 
 .modal-overlay.show .modal {
@@ -244,16 +242,17 @@ h1 {
 
 /* Modal content placeholder */
 .modal-content {
-    min-height: 200px;
+    height: 100%;
     display: flex;
-    align-items: center;
     justify-content: center;
     color: #000000;
     font-size: 1.1rem;
-    padding: 0 2rem;
+    padding: 0 4rem;
     overflow: scroll;
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
+}
+
+.modal-content p {
+    margin-top: 3rem;
 }
 
 .modal-content::-webkit-scrollbar {

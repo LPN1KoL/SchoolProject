@@ -32,63 +32,7 @@ def submit_form(request):
         text_question4 = data.get('text-question4', '')
         text_question5 = data.get('text-question5', '')
 
-        # Формируем промпт для ChatGPT
-        prompt = f"""Проанализируй результаты профориентационного опроса и дай рекомендации.
-
-Ответы респондента:
-
-1. Тип задач: {question1}
-2. Формат работы: {question2}
-3. Школьный предмет: {question3}
-4. Важно в профессии: {question4}
-5. Баллы ЕГЭ (сумма трех предметов): {question5}
-
-Развернутые ответы:
-6. Успешный проект: {text_question1}
-7. Проект с неограниченными ресурсами: {text_question2}
-8. Чем бы занимался при равной оплате: {text_question3}
-9. Идеальный рабочий день через 5 лет: {text_question4}
-10. Пожелания к городу обучения: {text_question5}
-
-На основе этих данных, пожалуйста:
-1. Определи основные интересы и склонности человека
-2. Предложи 2-3 подходящие специальности
-3. Порекомендуй конкретные вузы для поступления, СТРОГО учитывая пожелания к городу обучения и баллы ЕГЭ (подбирай вузы с проходным баллом, соответствующим указанному диапазону)
-
-Ответ представь в структурированном формате."""
-
-        try:
-            # Отправляем запрос к DeepSeek API напрямую
-            api_url = "https://api.deepseek.com/chat/completions"
-            headers = {
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"
-            }
-
-            payload = {
-                "model": "deepseek-chat",
-                "messages": [
-                    {"role": "system", "content": "Ты профессиональный карьерный консультант, который помогает студентам выбрать специальность и вуз для поступления. Твои рекомендации основаны на интересах, способностях и целях студента."},
-                    {"role": "user", "content": prompt}
-                ],
-                "temperature": 0.7,
-                "max_tokens": 1500
-            }
-
-            response = requests.post(api_url, headers=headers, json=payload, timeout=30)
-            response.raise_for_status()
-
-            # Извлекаем текст ответа
-            response_data = response.json()
-            ai_recommendation = response_data['choices'][0]['message']['content']
-
-            return JsonResponse({
-                'success': True,
-                'recommendation': ai_recommendation
-            }, status=200)
-
-        except Exception as e:
-            return JsonResponse({
-                'success': False,
-                'error': str(e)
-            }, status=500)
+        return JsonResponse({
+            'success': True,
+            'message': 'Форма успешно отправлена.'
+        }, status=200)

@@ -38,14 +38,7 @@ function submit_func() {
             const modalContent = document.querySelector('.modal-content')
 
             if (response.success) {
-                // Отображаем рекомендации от ИИ
-                modalContent.innerHTML = '<h2>Рекомендации по профориентации</h2><div class="recommendation-text">' +
-                    response.recommendation.replace(/\n/g, '<br>') +
-                    '</div>'
-            } else {
-                // Отображаем ошибку
-                modalContent.innerHTML = '<p>Произошла ошибка при обработке запроса: ' +
-                    (response.error || 'Неизвестная ошибка') + '</p>'
+                modalContent.innerHTML = '<p>' + xhr.response.message + '</p>'
             }
 
             modalOverlay.classList.add('show')
