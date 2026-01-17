@@ -87,4 +87,4 @@ else:
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
+DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')
