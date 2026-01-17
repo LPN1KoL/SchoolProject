@@ -1,9 +1,9 @@
 import json
+import requests
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-from openai import OpenAI
 
 
 
@@ -58,22 +58,29 @@ def submit_form(request):
 Ответ представь в структурированном формате."""
 
         try:
-            # Инициализируем клиент OpenAI
-            client = OpenAI(api_key=settings.OPENAI_API_KEY)
+            # Отправляем запрос к DeepSeek API напрямую
+            api_url = "https://api.deepseek.com/chat/completions"
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"
+            }
 
-            # Отправляем запрос к ChatGPT
-            response = client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[
+            payload = {
+                "model": "deepseek-chat",
+                "messages": [
                     {"role": "system", "content": "Ты профессиональный карьерный консультант, который помогает студентам выбрать специальность и вуз для поступления. Твои рекомендации основаны на интересах, способностях и целях студента."},
                     {"role": "user", "content": prompt}
                 ],
-                temperature=0.7,
-                max_tokens=1500
-            )
+                "temperature": 0.7,
+                "max_tokens": 1500
+            }
+
+            response = requests.post(api_url, headers=headers, json=payload, timeout=30)
+            response.raise_for_status()
 
             # Извлекаем текст ответа
-            ai_recommendation = response.choices[0].message.content
+            response_data = response.json()
+            ai_recommendation = response_data['choices'][0]['message']['content']
 
             return JsonResponse({
                 'success': True,
